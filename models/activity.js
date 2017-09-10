@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const activitySchema = new mongoose.Schema({
-  name: {
+  user: {
+    type: String,
+    required: true
+  },
+  activity: {
     type: String,
     required: "Please enter a name for the activity"
   },
@@ -10,6 +14,11 @@ const activitySchema = new mongoose.Schema({
     required: true,
     default: Date.now
   },
+  count : {
+    type: Number,
+    required: "Enter the number of times the activity was performed",
+    default: 0
+  }
 })
 
 const Activity = mongoose.model('Activity', activitySchema);
