@@ -1,6 +1,11 @@
 const express= require('express');
+const app = express();
 const router = express.Router();
-const Activity = require('./models/activity'),
+const Activity = require('../models/activity');
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 router.get('/activities', function (req, res) {
   Activity.find().then(function (err, activity) {
@@ -33,7 +38,7 @@ router.get('/actvities/:id', function (req, res) {
 
 router.put('actvities/:id', function (req, res) {
   id = req.params.id;
-  Activity.findOne({_id: id}).then(function (err, activity) {
+  Activity.findOneAndUpdate({_id: id}).then(function (err, activity) {
     if (err) {
       res.send(err);
     }
@@ -43,11 +48,11 @@ router.put('actvities/:id', function (req, res) {
 
 router.delete('actvities/:id', function (req, res) {
   id = req.params.id;
-  Activity.deleteOne({_id: id}).then(function (err, activity) {
+  Activity.remove({_id: id}).then(function (err, activity) {
     if (err) {
       res.send(err);
     }
-    res.json(activity);
+    res.json({message: 'Task successfully deleted'});
   })
 })
 
